@@ -38,9 +38,9 @@ public class Example {
                 which is now already damaging their development. Securing agreement based on these principles
                 in the next two years will be an immense task for the international community. But we believe it is
                 possible.\s
-                """.split("\\s+");
+                """.split("\\s+"); //Splits the string into an array at every space
 
-        List<String> dictionary = Arrays.stream(words).distinct().toList();
+        List<String> dictionary = Arrays.stream(words).distinct().toList(); //Makes a new list of every unique word
         wordCloud(words);
         getStatWords(dictionary, words);
 
@@ -51,7 +51,7 @@ public class Example {
         System.out.println("Amount of words in the text: " + words.length);
         System.out.println("Amount of unique words: " + dict.size());
         System.out.println("Words and their total appearances: ");
-        for (String word : dictionaryWordCount.keySet()) {
+        for (String word : dictionaryWordCount.keySet()) { //For all the words print them
             System.out.println(word + ": " + dictionaryWordCount.get(word));
 
         }
@@ -68,13 +68,14 @@ public class Example {
 
         for (int i = 0; i < words.length; i++) {
             String word = words[i];
-            if (dictionaryWordCount.containsKey(word)) {
-                dictionaryWordCount.put(word, dictionaryWordCount.get(word) + 1);
+            if (dictionaryWordCount.containsKey(word)) { //Check if the dictionary contains the word
+                dictionaryWordCount.put(word, dictionaryWordCount.get(word) + 1); //If it does then override the value
+                // assigned to the word and increase by 1
             } else {
-                dictionaryWordCount.put(word, 1);
+                dictionaryWordCount.put(word, 1); //Else put the word and value to 1
             }
-            int labelSize = dictionaryWordCount.get(word);
-            if (labelSize < 10) {
+            int labelSize = dictionaryWordCount.get(word); //Get the value assigned with the word
+            if (labelSize < 10) { // Just some code to get the 1 instance words to actually be seen
                 labelSize *= 5;
             }
             labels[i] = new JLabel(word);
