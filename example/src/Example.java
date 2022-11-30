@@ -11,7 +11,7 @@ public class Example {
 
     public static void main(String[] args) {
 
-        String[] words = """
+        final String[] words = """
                 The IPCC's measured assessment shows that the world needs to face up to the challenge of climate
                 change, and to do so now. It is clear that climate change poses an urgent challenge, not only a
                 challenge that threatens the environment but also international peace and security, prosperity and
@@ -40,16 +40,15 @@ public class Example {
                 possible.\s
                 """.split("\\s+"); //Splits the string into an array at every space
 
-        List<String> dictionary = Arrays.stream(words).distinct().toList(); //Makes a new list of every unique word
-        wordCloud(dictionary, words);
-        getStatWords(dictionary, words);
+        wordCloud(words);
+        getStatWords(words);
 
     }
 
-    private static void getStatWords(List<String> dict, String[] words) {
+    private static void getStatWords(String[] words) {
 
         System.out.println("Amount of words in the text: " + words.length);
-        System.out.println("Amount of unique words: " + dict.size());
+        System.out.println("Amount of unique words: " + Arrays.stream(words).distinct().toList().size());
         System.out.println("Words and their total appearances: ");
         for (String word : dictionaryWordCount.keySet()) { //For all the words print them
             System.out.println(word + ": " + dictionaryWordCount.get(word));
@@ -58,7 +57,7 @@ public class Example {
 
     }
 
-    public static void wordCloud(List<String> dictionary, String[] words) {
+    public static void wordCloud(String[] words) {
         JFrame frame = new JFrame("Word cloud");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
