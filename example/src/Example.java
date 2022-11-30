@@ -1,9 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Example {
 
@@ -41,7 +41,7 @@ public class Example {
                 """.split("\\s+"); //Splits the string into an array at every space
 
         List<String> dictionary = Arrays.stream(words).distinct().toList(); //Makes a new list of every unique word
-        wordCloud(words);
+        wordCloud(dictionary, words);
         getStatWords(dictionary, words);
 
     }
@@ -58,30 +58,32 @@ public class Example {
 
     }
 
-    public static void wordCloud(String[] words) {
+    public static void wordCloud(List<String> dictionary, String[] words) {
         JFrame frame = new JFrame("Word cloud");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
-        JLabel[] labels = new JLabel[words.length];
+        List<JLabel> labels = new ArrayList<>();
 
         frame.setSize(900, 1080);
 
-        for (int i = 0; i < words.length; i++) {
-            String word = words[i];
-            if (dictionaryWordCount.containsKey(word)) { //Check if the dictionary contains the word
-                dictionaryWordCount.put(word, dictionaryWordCount.get(word) + 1); //If it does then override the value
-                // assigned to the word and increase by 1
+        for (String word : words) {
+
+            if (dictionaryWordCount.containsKey(word)) {
+                dictionaryWordCount.put(word, dictionaryWordCount.get(word) + 1);
             } else {
-                dictionaryWordCount.put(word, 1); //Else put the word and value to 1
+                dictionaryWordCount.put(word, 1);
             }
-            int labelSize = dictionaryWordCount.get(word); //Get the value assigned with the word
-            if (labelSize < 10) { // Just some code to get the 1 instance words to actually be seen
-                labelSize *= 5;
-            }
-            labels[i] = new JLabel(word);
-            labels[i].setFont(new Font("Times New Roman", Font.PLAIN, labelSize));
-            panel.add(labels[i]);
         }
+
+        for (String dictWords : dictionaryWordCount.keySet()) {
+
+            int labelSize = dictionaryWordCount.get(dictWords) * 3; //Get the value assigned with the word
+            JLabel label = new JLabel(dictWords);
+            label.setFont(new Font("Times New Roman", Font.PLAIN, labelSize));
+            labels.add(label);
+
+        }
+        labels.forEach(panel::add);
         frame.add(panel);
         frame.setVisible(true);
     }
